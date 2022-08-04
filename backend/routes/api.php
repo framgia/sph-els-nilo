@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Usercont;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Models\User;
@@ -16,13 +17,7 @@ use App\Models\User;
 |
 */
 
-Route::get('/post', function() {
-    return User::all();
-});
-
-Route::post('/post', function() {
-    return User::all();
-});
+Route::resource('/post', UserController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

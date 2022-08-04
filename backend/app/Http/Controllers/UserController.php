@@ -15,41 +15,50 @@ class UserController extends Controller
 
         $fields = $request->validate(
             [
-                'username' => 'required|string',
-                'password' => 'required|string|confirmed',
-                'email' => 'required|string|unique:users,email'
-            ]
-            );
-        $user = User::create([
-            'username' => $fields['username'],
-            'password' => $fields['password'],
-            'email' => $fields['email']
-        ]);
+                'username' => ['required', 'unique:users', 'max:255'],
+                'password' => ['required', 'confirmed'],
+                'email' => ['required', 'unique:users'],
+            ]);
+
+        $user = User::create(
+            [
+                'username' => $fields['username'],
+                'password' => bcrypt($fields['password']),
+                'email' => $fields['email']
+            ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken;
-        $response = [
-            'user' => $user,
-            'token' => $token
-        ];
+        $response =
+            [
+                'user' => $user,
+                'token' => $token
+            ];
 
         return response()->json($response, 201);
 
     }
 
     public function show(Request $request){
-        $request->validate(
+        $field = $request->validate(
             [
-                'username' => 'required',
-                'password' => 'required'
-            ]
-            );
-        $res = User::where('username', $request->username);
-        if (!($res->count() > 0)) {
-            return 'Username Dont Exist';
+                'username' => ['required'],
+                'password' => ['required']
+            ]);
+
+        $res = User::where('username', $request->username)->first();
+        if(!$res || !Hash::check($field['password'], $res->password)){
+            return response(
+                [
+                    'message' => 'Bad Creds'
+                ], 401);
         }
-        if (strcmp($res->first()->password, $request->password)){
-            return 'Password Dont match';
-        };
-        return "Welcome";
-    }
+
+        $token = $res->createToken('myapptoken')->plainTextToken;
+        $response =
+            [
+                'user' => $res,
+                'token' => $token
+            ];
+        return response()->json($response, 201);
+}
 }

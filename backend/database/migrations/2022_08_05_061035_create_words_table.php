@@ -15,9 +15,9 @@ return new class extends Migration
     {
         Schema::create('words', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('lesson_id')->constrained('lessons');
+            $table->foreignId('lessonId')->constrained('lessons')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('choices');
-            $table->string('is_correct');
+            $table->string('isCorrect');
             $table->timestamps();
         });
     }

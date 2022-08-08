@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Usercont;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LessonController;
@@ -20,13 +19,10 @@ use App\Models\User;
 |
 */
 
-Route::resource('/users', UserController::class);
-
-Route::resource('/categories', CategoryController::class);
-
-Route::resource('/lessons', LessonController::class);
-
-Route::resource('/words', WordController::class);
+Route::apiResource('/users', UserController::class);
+Route::apiResource('/categories', CategoryController::class);
+Route::apiResource('/lessons', LessonController::class);
+Route::apiResource('/words', WordController::class);
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();

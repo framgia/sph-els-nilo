@@ -12,53 +12,48 @@ class CategoryController extends Controller
         return Category::all();
     }
 
-    public function create(Request $request)
+    // Create a Category
+    public function store(Request $request)
     {
-
-        $fields = $request->validate([
-            'title' => ['required', 'unique:categories', 'max:255'],
-            'description' => ['required', 'max:255'],
-        ]);
-
-        $user = Category::create([
-            'title' => $fields['title'],
-            'description' => $fields['description'],
-        ]);
-
-        $response = [
-            'user' => $user,
-            'status' => 'Category Created!',
-        ];
-
-        return response()->json($response, 201);
-    }
-
-    public function update(Request $request, $id)
-    {
-
         $request->validate([
-            'title' => ['required', 'unique:categories', 'max:255'],
-            'description' => ['required', 'max:255'],
+            'title' => ['required', 'unique:categories', 'max:225'],
+            'description' => ['required'],
+        ]);
+        Category::create([
+            'title' => $request['title'],
+            'description' => $request['description'],
         ]);
 
-        $user = Category::findOrFail($id);
-        $user->update($request->all());
-        $response = [
-            'user' => $user,
-            'status' => 'Category Updated',
-        ];
-
-        return response()->json($response, 201);
+        return response()->json(['message' => 'Category Created!'], 201);
     }
 
-    public function destroy($id)
+    // Display Description
+    public function show(Request $request)
     {
+        $request->validate([
+            'title' => ['required'],
+        ]);
 
-        Category::destroy($id);
-        $response = [
-            'user' => 'Category Deleted',
-        ];
+        return Category::where('title', $request->title)->first()->description;
+    }
 
-        return response()->json($response, 201);
+    // Edit the Category
+    public function update(Request $request)
+    {
+        $request->validate([
+            'title' => ['required'],
+            'description' => ['required'],
+        ]);
+        Category::where('title', $request->title)->first()->update($request->all());
+
+        return response()->json(['message' => 'Category Updated!'], 201);
+    }
+
+    // Deletion of Category
+    public function destroy(Request $request)
+    {
+        Category::destroy(Category::where('title', $request->title)->first('id')->id);
+
+        return response()->json(['message' => 'Category Deleted'], 201);
     }
 }

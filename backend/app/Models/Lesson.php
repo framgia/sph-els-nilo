@@ -9,7 +9,5 @@ class Lesson extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'category_id', 'character'
-    ];
+    protected $guarded = [];
 }

@@ -12,55 +12,51 @@ class WordController extends Controller
         return Word::all();
     }
 
-    public function create(Request $request)
+    // Create Choices
+    public function store(Request $request)
     {
-
         $fields = $request->validate([
-            'lesson_id' => ['required', 'max:255'],
-            'choices' => ['required', 'max:255'],
-            'is_correct' => ['required', 'max:255'],
+            'lessonId' => ['required'],
+            'choices' => ['required'],
+            'isCorrect' => ['required'],
+        ]);
+        Word::create([
+            'lessonId' => $fields['lessonId'],
+            'choices' => $fields['choices'],
+            'isCorrect' => $fields['isCorrect'],
         ]);
 
-        $user = Word::create([
-            'title' => $fields['title'],
-            'description' => $fields['description'],
-        ]);
-
-        $response = [
-            'status' => 'Word Created!',
-            'user' => $user,
-        ];
-
-        return response()->json($response, 201);
+        return response()->json(['message' => 'Word Created!'], 201);
     }
 
+    // Fetch the Choices
+    public function show(Request $request)
+    {
+        $request->validate([
+            'lessonId' => ['required'],
+        ]);
+
+        return Word::where('lessonId', $request->lessonId)->get('choices')->toJson();
+    }
+
+    // Update Choices
     public function update(Request $request, $id)
     {
-
         $request->validate([
-            'lesson_id' => ['required', 'max:255'],
+            'lessonId' => ['required', 'max:255'],
             'choices' => ['required', 'max:255'],
-            'is_correct' => ['required', 'max:255'],
+            'isCorrect' => ['required', 'max:255'],
         ]);
+        Word::findOrFail($id)->update($request->all());
 
-        $user = Word::findOrFail($id);
-        $user->update($request->all());
-        $response = [
-            'status' => 'Word Updated!',
-            'user' => $user,
-        ];
-
-        return response()->json($response, 201);
+        return response()->json(['status' => 'Word Updated!'], 201);
     }
 
+    // Delete
     public function destroy($id)
     {
-
         Word::destroy($id);
-        $response = [
-            'status' => 'Word Deleted',
-        ];
 
-        return response()->json($response, 201);
+        return response()->json(['status' => 'Word Deleted'], 201);
     }
 }

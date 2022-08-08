@@ -9,7 +9,5 @@ class Word extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'lesson_id', 'choices', 'is_correct'
-    ];
+    protected $guarded = [];
 }

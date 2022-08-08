@@ -12,52 +12,36 @@ class LessonController extends Controller
         return Lesson::all();
     }
 
-    public function create(Request $request)
+    // Addition of Character
+    public function store(Request $request)
     {
-        $fields = $request->validate([
-            'category_id' => ['required'],
+        $request->validate([
+            'categoryId' => ['required'],
             'character' => ['required', 'unique:lessons'],
         ]);
-
-        $user = Lesson::create([
-            'category_id' => $fields['category_id'],
-            'character' => $fields['character'],
+        Lesson::create([
+            'categoryId' => $request['categoryId'],
+            'character' => $request['character'],
         ]);
 
-        $response = [
-            'user' => $user,
-            'status' => 'Lesson Created',
-        ];
-
-        return response()->json($response, 201);
+        return response()->json(['message' => 'Lesson Created'], 201);
     }
 
-    public function update(Request $request, $id)
+    // Fetch a Character
+    public function show(Request $request)
     {
-
         $request->validate([
-            'category_id' => ['required', 'max:255'],
-            'character' => ['required', 'max:255'],
+            'categoryId' => ['required'],
         ]);
 
-        $user = Lesson::findOrFail($id);
-        $user->update($request->all());
-        $response = [
-            'user' => $user,
-            'status' => 'Lesson Updated',
-        ];
-
-        return response()->json($response, 201);
+        return response()->json(Lesson::where('categoryId', $request->categoryId)->get('character'), 201);
     }
 
+    // Delete a Character
     public function destroy($id)
     {
-
         Lesson::destroy($id);
-        $response = [
-            'user' => 'Lesson Deleted',
-        ];
 
-        return response()->json($response, 201);
+        return response()->json(['message' => 'Lesson Deleted'], 201);
     }
 }

@@ -19,12 +19,15 @@ class LessonController extends Controller
             'categoryId' => ['required'],
             'character' => ['required', 'unique:lessons'],
         ]);
-        Lesson::create([
+        $character = Lesson::create([
             'categoryId' => $request['categoryId'],
             'character' => $request['character'],
         ]);
 
-        return response()->json(['message' => 'Lesson Created'], 201);
+        return response()->json([
+            'character' => $character,
+            'message' => 'Lesson Created',
+        ]);
     }
 
     // Fetch a Character
@@ -33,8 +36,12 @@ class LessonController extends Controller
         $request->validate([
             'categoryId' => ['required'],
         ]);
+        $character = Lesson::where('categoryId', $request->categoryId)->get();
 
-        return response()->json(Lesson::where('categoryId', $request->categoryId)->get('character'), 201);
+        return response()->json([
+            'character' => $character,
+            'message' => 'Character Fetched',
+        ]);
     }
 
     // Delete a Character
@@ -42,6 +49,8 @@ class LessonController extends Controller
     {
         Lesson::destroy($id);
 
-        return response()->json(['message' => 'Lesson Deleted'], 201);
+        return response()->json([
+            'message' => 'Lesson Deleted',
+        ]);
     }
 }

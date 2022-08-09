@@ -20,13 +20,17 @@ class WordController extends Controller
             'choices' => ['required'],
             'isCorrect' => ['required'],
         ]);
-        Word::create([
+
+        $word = Word::create([
             'lessonId' => $fields['lessonId'],
-            'choices' => $fields['choices'],
+            'choices' => json_encode($fields['choices']),
             'isCorrect' => $fields['isCorrect'],
         ]);
 
-        return response()->json(['message' => 'Word Created!'], 201);
+        return response()->json([
+            'word' => $word,
+            'message' => 'Word Created!',
+        ]);
     }
 
     // Fetch the Choices
@@ -35,21 +39,28 @@ class WordController extends Controller
         $request->validate([
             'lessonId' => ['required'],
         ]);
+        $choices = Word::where('lessonId', $request->lessonId)->get('choices');
 
-        return Word::where('lessonId', $request->lessonId)->get('choices')->toJson();
+        return response()->json([
+            'choices' => $choices,
+            'message' => 'Choices Fetched',
+        ]);
     }
 
     // Update Choices
     public function update(Request $request, $id)
     {
         $request->validate([
-            'lessonId' => ['required', 'max:255'],
-            'choices' => ['required', 'max:255'],
-            'isCorrect' => ['required', 'max:255'],
+            'lessonId' => ['required'],
+            'choices' => ['required'],
+            'isCorrect' => ['required'],
         ]);
-        Word::findOrFail($id)->update($request->all());
+        $choices = Word::findOrFail($id)->update($request->all());
 
-        return response()->json(['status' => 'Word Updated!'], 201);
+        return response()->json([
+            'choices' => $choices,
+            'status' => 'Word Updated!',
+        ]);
     }
 
     // Delete
@@ -57,6 +68,8 @@ class WordController extends Controller
     {
         Word::destroy($id);
 
-        return response()->json(['status' => 'Word Deleted'], 201);
+        return response()->json([
+            'status' => 'Word Deleted',
+        ]);
     }
 }

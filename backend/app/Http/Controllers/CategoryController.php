@@ -19,12 +19,15 @@ class CategoryController extends Controller
             'title' => ['required', 'unique:categories', 'max:225'],
             'description' => ['required'],
         ]);
-        Category::create([
+        $category = Category::create([
             'title' => $request['title'],
             'description' => $request['description'],
         ]);
 
-        return response()->json(['message' => 'Category Created!'], 201);
+        return response()->json([
+            'category' => $category,
+            'message' => 'Category Created!',
+        ]);
     }
 
     // Display Description
@@ -33,8 +36,12 @@ class CategoryController extends Controller
         $request->validate([
             'title' => ['required'],
         ]);
+        $category = Category::where('title', $request->title)->first();
 
-        return Category::where('title', $request->title)->first()->description;
+        return response()->json([
+            'category' => $category,
+            'message' => 'Category Shown',
+        ]);
     }
 
     // Edit the Category
@@ -44,16 +51,23 @@ class CategoryController extends Controller
             'title' => ['required'],
             'description' => ['required'],
         ]);
-        Category::where('title', $request->title)->first()->update($request->all());
+        $category = Category::where('title', $request->title)->first();
+        $category->update($request->all());
 
-        return response()->json(['message' => 'Category Updated!'], 201);
+        return response()->json([
+            'category' => $category,
+            'message' => 'Category Updated!',
+        ]);
     }
 
     // Deletion of Category
     public function destroy(Request $request)
     {
-        Category::destroy(Category::where('title', $request->title)->first('id')->id);
+        $categoryId = Category::where('title', $request->title)->first('id')->id;
+        Category::destroy($categoryId);
 
-        return response()->json(['message' => 'Category Deleted'], 201);
+        return response()->json([
+            'message' => 'Category Deleted',
+        ]);
     }
 }

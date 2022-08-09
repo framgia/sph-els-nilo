@@ -14,9 +14,8 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function store(Request $request)
+    public function create(Request $request)
     {
-
         $fields = $request->validate([
             'name' => ['required', 'unique:users', 'max:255'],
             'password' => ['required', 'confirmed'],
@@ -29,22 +28,22 @@ class UserController extends Controller
             'email' => $fields['email'],
         ]);
 
-        $token = $user->createToken('myapptoken')->plainTextToken;
+        $token = $user->createToken('UserSignUpToken')->plainTextToken;
         $response = [
             'user' => $user,
             'token' => $token,
         ];
 
+
         return response()->json($response, 201);
     }
 
-    public function show(Request $request)
+    public function update(Request $request)
     {
         $field = $request->validate([
             'email' => ['required'],
             'password' => ['required'],
         ]);
-
         $res = User::where('email', $request->email)->first();
         if (!$res || !Hash::check($field['password'], $res->password)) {
             return response([
@@ -52,11 +51,13 @@ class UserController extends Controller
             ], 401);
         }
 
-        $token = $res->createToken('myapptoken')->plainTextToken;
+        $token = $res->createToken('UserLogInToken')->plainTextToken;
         $response = [
             'user' => $res,
             'token' => $token,
+            'status' => 'Logged In!',
         ];
         return response()->json($response, 201);
     }
+
 }

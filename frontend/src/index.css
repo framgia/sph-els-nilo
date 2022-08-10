@@ -14,7 +14,10 @@ html {
 
 body {
     min-height: 100vh;
-    background-color: dodgerblue;
+    background-image: url('https://preview.redd.it/y89lnoj42qx61.png?auto=webp&s=49b425bd5f81e76888b09ed8a22b5a02facac559');
+    background-size: cover;
+    background-repeat: no-repeat;
+    
 }
 
 .App {
@@ -34,7 +37,8 @@ section {
     flex-direction: column;
     justify-content: flex-start;
     padding: 1rem;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(39, 149, 177, 0.4);
+    border-radius: 0.5rem;
 }
 
 form {

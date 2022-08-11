@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 
-function Login() {
+const Login = () => {
 
     const userRef = useRef();
     const errRef = useRef();
@@ -49,11 +49,11 @@ function Login() {
                 <button disabled={!user || !password ? true : false}>Sig In</button>
             </form>
             <p style={{ fontSize: '13px' }}>
-                <a href="#" style={{ color: 'blue', textDecoration: 'none' }}> Forgot Password</a>
+                <a href="Forgot" style={{ color: 'blue', textDecoration: 'none' }}> Forgot Password</a>
             </p>
             <p style={{ fontSize: '17px' }}>
                 Don't have an account?
-                <a href='#' style={{ color: 'blue', textDecoration: 'none' }}> Sign Up</a>
+                <a href='signup' style={{ color: 'blue', textDecoration: 'none' }}> Sign Up</a>
             </p>
         </section>
     )

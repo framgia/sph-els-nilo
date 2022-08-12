@@ -8,8 +8,7 @@
 
 html {
     font-family: 'Nunito', sans-serif;
-    font-size: 22px;
-    color: #fff;
+    font-size: 18px;
 }
 
 body {
@@ -20,7 +19,7 @@ body {
     
 }
 
-.App {
+.auth {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -29,7 +28,7 @@ body {
   padding: 1rem 0.5rem;
 }
 
-section {
+.auth section {
     width: 100%;
     max-width: 420px;
     min-height: 400px;
@@ -41,7 +40,7 @@ section {
     border-radius: 0.5rem;
 }
 
-form {
+.auth form {
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
@@ -49,31 +48,31 @@ form {
     padding-bottom: 1rem;
 }
 
-a, a:visited {
+.auth a, .auth a:visited {
     color: #fff;
 }
 
-input[type="text"],
-input[type="password"],
-input[type="email"],
-button,
-textarea {
+.auth input[type="text"],
+.auth input[type="password"],
+.auth input[type="email"],
+.auth button,
+.auth textarea {
   font-family: 'Nunito', sans-serif;
   font-size: 22px;
   padding: 0.25rem;
   border-radius: 0.5rem;
 }
 
-label,
-button {
+.auth label,
+.auth button {
   margin-top: 1rem;
 }
 
-button {
+.auth button {
   padding: 0.5rem;
 }
 
-.instructions {
+.auth .instructions {
     font-size: 0.75rem;
     border-radius: 0.5rem;
     background: #000;
@@ -83,30 +82,30 @@ button {
     bottom: -10px;
 }
 
-.instructions > svg {
+.auth .instructions > svg {
     margin-right: 0.25rem;
 }
 
-.offscreen {
+.auth .offscreen {
     position: absolute;
     left: -9999px;
 }
 
-.hide {
+.auth .hide {
     display: none;
 }
 
-.valid {
+.auth .valid {
     color: limegreen;
     margin-left: 0.25rem;
 }
 
-.invalid {
+.auth .invalid {
     color: red;
     margin-left: 0.25rem;
 }
 
-.errmsg {
+.auth .errmsg {
     background-color: lightpink;
     color: firebrick;
     font-weight: bold;
@@ -114,6 +113,6 @@ button {
     margin-bottom: 0.5rem;
 }
 
-.line {
+.auth .line {
     display: inline-block;
 }

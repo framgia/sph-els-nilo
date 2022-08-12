@@ -12,7 +12,7 @@ class User extends Model
 
     protected $fillable =
     [
-        'name', 'password', 'email'
+        'name', 'password', 'email', 'isAdmin'
     ];
 
     protected $hidden = [

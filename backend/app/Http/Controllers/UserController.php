@@ -43,18 +43,11 @@ class UserController extends Controller
             'password' => ['required'],
         ]);
         $res = User::where('name', $request->name)->first();
-        if ($res) {
-            if (!Hash::check($field['password'], $res->password)) {
-                return response([
-                    'message' => 'Wrong password!',
-                ], 401);
-            }
-
-        } else {
+        if (!$res || !Hash::check($field['password'], $res->password)) {
             return response([
-                'message' => 'Username Dont Exist!',
+                'message' => 'Bad Credentials',
             ], 401);
-        }
+            }
 
         $token = $res->createToken('UserLogInToken')->plainTextToken;
         $response = [

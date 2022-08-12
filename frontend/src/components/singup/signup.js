@@ -2,7 +2,8 @@ import { useRef, useState, useEffect } from "react";
 import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import React from "react";
-import axios from "../api/axios";
+import axios from "../api/api";
+import { useNavigate } from "react-router-dom";
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z]).{4,24}/;
@@ -11,6 +12,7 @@ const REG_URL = '/users';
 
 const Signup = () => {
 
+    const navigate = useNavigate();
     const userRef = useRef();
     const errRef = useRef();
 
@@ -62,11 +64,11 @@ const Signup = () => {
         e.preventDefault();
         try {
             await axios.post(REG_URL,
-                JSON.stringify({ name: user, password, password_confirmation: matchPassword, email }),
-                {
-                    headers: { 'Content-Type': 'application/json' }
-                });
+                { name: user, password, password_confirmation: matchPassword, email },
+                { headers: { 'Content-Type': 'application/json' } });
             setSuccess(true);
+            navigate("/");
+
 
         } catch (err) {
             if (!err.response) {

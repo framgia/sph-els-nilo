@@ -1,12 +1,14 @@
 import React from "react";
-import axios from "../api/axios";
+import axios from "../api/api";
 import { useRef, useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 
 const REG_URL = '/users/login';
 const Login = () => {
 
+    const navigate = useNavigate();
     const userRef = useRef();
     const errRef = useRef();
 
@@ -27,12 +29,12 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(REG_URL,
-                JSON.stringify({ name: user, password }),
-                {
-                    headers: { 'Content-Type': 'application/json' }
-                });
+            const response = await axios.put(REG_URL,
+                { name: user, password },
+                { headers: { 'Content-Type': 'application/json' } });
             setSuccess(true);
+            navigate("dashboard")
+
 
         } catch (err) {
             if (!err.response) {
@@ -40,8 +42,7 @@ const Login = () => {
             } else if (err.response?.status === 401) {
                 setErrMsg(err.response.data.message);
             } else {
-                // setErrMsg('Registration failed');
-                console.log(err.response);
+                setErrMsg('Wrong Password!');
             }
             errRef.current.focus();
         }

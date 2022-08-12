@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -14,7 +13,7 @@ class UserController extends Controller
         return User::all();
     }
 
-    public function create(Request $request)
+    public function store(Request $request)
     {
         $fields = $request->validate([
             'name' => ['required', 'unique:users', 'max:255'],
@@ -34,20 +33,26 @@ class UserController extends Controller
             'token' => $token,
         ];
 
-
-        return response()->json($response, 201);
+        return response()->json($response);
     }
 
     public function update(Request $request)
     {
         $field = $request->validate([
-            'email' => ['required'],
+            'name' => ['required'],
             'password' => ['required'],
         ]);
-        $res = User::where('email', $request->email)->first();
-        if (!$res || !Hash::check($field['password'], $res->password)) {
+        $res = User::where('name', $request->name)->first();
+        if ($res) {
+            if (!Hash::check($field['password'], $res->password)) {
+                return response([
+                    'message' => 'Wrong password!',
+                ], 401);
+            }
+
+        } else {
             return response([
-                'message' => 'Bad Creds',
+                'message' => 'Username Dont Exist!',
             ], 401);
         }
 
@@ -55,9 +60,9 @@ class UserController extends Controller
         $response = [
             'user' => $res,
             'token' => $token,
-            'status' => 'Logged In!',
+            'message' => 'Logged In!',
         ];
-        return response()->json($response, 201);
+        return response()->json($response);
     }
 
 }

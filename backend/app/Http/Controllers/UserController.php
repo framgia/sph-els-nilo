@@ -19,12 +19,13 @@ class UserController extends Controller
             'name' => ['required', 'unique:users', 'max:255'],
             'password' => ['required', 'confirmed'],
             'email' => ['required', 'unique:users'],
+            'isAdmin' => [false]
         ]);
 
         $user = User::create([
             'name' => $fields['name'],
             'password' => bcrypt($fields['password']),
-            'email' => $fields['email'],
+            'email' => $fields['email']
         ]);
 
         $token = $user->createToken('UserSignUpToken')->plainTextToken;
@@ -45,7 +46,7 @@ class UserController extends Controller
         $res = User::where('name', $request->name)->first();
         if (!$res || !Hash::check($field['password'], $res->password)) {
             return response([
-                'message' => 'Bad Credentials',
+                'message' => 'Mismatched Credentials',
             ], 401);
             }
 

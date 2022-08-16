@@ -10,10 +10,6 @@ class User extends Model
 {
     use HasFactory, HasApiTokens;
     protected $guarded = [];
-    protected $fillable =
-    [
-        'name', 'password', 'email', 'isAdmin'
-    ];
     protected $hidden = [
         'password',
         'remember_token',

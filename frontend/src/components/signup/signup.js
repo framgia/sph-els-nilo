@@ -64,7 +64,7 @@ const Signup = () => {
         e.preventDefault();
         try {
             await axios.post(REG_URL,
-                { name: user, password, password_confirmation: matchPassword, email, isAdmin: false },
+                { name: user, password, password_confirmation: matchPassword, email },
                 { headers: { 'Content-Type': 'application/json' } });
             setSuccess(true);
             navigate("/");

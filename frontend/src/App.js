@@ -1,21 +1,23 @@
 import { React } from 'react';
 import Login from './components/login/login';
 import Signup from './components/signup/signup';
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import ProtectedRoutes from './components/protectedRoutes/useAuth';
 import Userdashboard from './components/userdashboard/userdashboard';
 import Admindashboard from './components/admindashboard/admindashboard';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 export default function App() {
-  return (
-    <BrowserRouter>
-      <main>
-        <Routes>
-        <Route path="/" element={<Login />} />
-          <Route path="signup" element={<Signup />} />
-          <Route path="dashboard" element={<Userdashboard />} />
-          <Route path="admin.dashboard" element={<Admindashboard />} />
-        </Routes>
-      </main>
-    </BrowserRouter>
-  );
+    return (
+        <BrowserRouter>
+            <Routes>
+                <Route path="/signup" element={<Signup />} />
+                <Route path="/login" element={<Login />} />
+                <Route element={<ProtectedRoutes />}>
+                    <Route path="dashboard" element={<Userdashboard />} />
+                    <Route path="admin.dashboard" element={<Admindashboard />} />
+                </Route>
+                <Route path="/*" element={<Login />} statu replace />
+            </Routes>
+        </BrowserRouter>
+    );
 }

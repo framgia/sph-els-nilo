@@ -1,9 +1,9 @@
-import React from "react";
-import axios from "../api/api";
-import { useNavigate } from "react-router-dom";
-import { useRef, useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { faCheck, faTimes, faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import React from 'react';
+import axios from '../api/api';
+import { useNavigate } from 'react-router-dom';
+import { useRef, useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faTimes, faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 
 const USER_REGEX = /^[a-zA-Z][a-zA-Z0-9-_]{3,23}$/;
 const PASSWORD_REGEX = /^(?=.*[a-z])(?=.*[A-Z]).{4,24}/;

@@ -1,10 +1,10 @@
 import { React } from 'react';
-import Login from "./components/login/login";
+import Login from './components/login/login';
 import Signup from './components/signup/signup';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import ProtectedRoutes from './components/protectedRoutes/useAuth';
 import Userdashboard from './components/userdashboard/userdashboard';
-import Admindashboard from "./components/admindashboard/admindashboard"
+import Admindashboard from './components/admindashboard/admindashboard';
 
 export default function App() {
     return (

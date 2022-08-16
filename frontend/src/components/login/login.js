@@ -1,10 +1,10 @@
-import React from "react";
-import axios from "../api/api";
-import { useRef, useState, useEffect } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
-import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import axios from '../api/api';
+import { useRef, useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
+import Cookies from 'js-cookie';
+import { useNavigate } from 'react-router-dom';
 
 const REG_URL = '/users/login';
 const Login = () => {

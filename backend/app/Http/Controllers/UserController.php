@@ -19,13 +19,22 @@ class UserController extends Controller
             'name' => ['required', 'unique:users', 'max:255'],
             'password' => ['required', 'confirmed'],
             'email' => ['required', 'unique:users'],
+<<<<<<< HEAD
             'isAdmin' => [false]
+=======
+            'isAdmin' => ['max:244']
+>>>>>>> a22c15613727bb7d56e3403da54672634d6f5e18
         ]);
 
         $user = User::create([
             'name' => $fields['name'],
             'password' => bcrypt($fields['password']),
+<<<<<<< HEAD
             'email' => $fields['email']
+=======
+            'email' => $fields['email'],
+            'isAdmin' => $fields['isAdmin']
+>>>>>>> a22c15613727bb7d56e3403da54672634d6f5e18
         ]);
 
         $token = $user->createToken('UserSignUpToken')->plainTextToken;

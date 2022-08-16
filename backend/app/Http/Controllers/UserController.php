@@ -18,7 +18,7 @@ class UserController extends Controller
         $fields = $request->validate([
             'name' => ['required', 'unique:users', 'max:255'],
             'password' => ['required', 'confirmed'],
-            'email' => ['required', 'unique:users'],
+            'email' => ['required', 'unique:users']
         ]);
 
         $user = User::create([
@@ -45,7 +45,7 @@ class UserController extends Controller
         $res = User::where('name', $request->name)->first();
         if (!$res || !Hash::check($field['password'], $res->password)) {
             return response([
-                'message' => 'Bad Credentials',
+                'message' => 'Mismatched Credentials',
             ], 401);
             }
 

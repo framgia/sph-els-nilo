@@ -33,8 +33,9 @@ const Login = () => {
                 { name: user, password },
                 { headers: { 'Content-Type': 'application/json' } });
             setSuccess(true);
-            navigate("dashboard")
-
+            if (response.data.user.isAdmin) {
+                navigate("admin.dashboard")
+            } else { navigate("dashboard") }
 
         } catch (err) {
             if (!err.response) {

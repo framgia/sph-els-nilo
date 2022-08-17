@@ -33,7 +33,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 1</a></td>
             <td>Description 1</td>
             <td>
-              <a href="#">Add word</a><t> | </t>
+              <a href="admin.addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>
@@ -42,7 +42,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 2</a></td>
             <td>Description 2</td>
             <td>
-              <a href="#">Add word</a><t> | </t>
+              <a href="admin.addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>
@@ -51,7 +51,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 3</a></td>
             <td>Description 3</td>
             <td>
-              <a href="#">Add word</a><t> | </t>
+              <a href="admin.addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>
@@ -60,7 +60,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 4</a></td>
             <td>Description 4</td>
             <td>
-              <a href="#">Add word</a><t> | </t>
+              <a href="admin.addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>
@@ -69,7 +69,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 5</a></td>
             <td>Description 5</td>
             <td>
-              <a href="#">Add word</a><t> | </t>
+              <a href="admin.addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>

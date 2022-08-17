@@ -6,6 +6,7 @@ import ProtectedRoutes from './components/protectedRoutes/useAuth';
 import Userdashboard from './components/userdashboard/userdashboard';
 import Admindashboard from './components/admindashboard/admindashboard';
 import Addcategory from './components/admindashboard/addcategroy';
+import Addwords from './components/admindashboard/addwords';
 
 export default function App() {
     return (
@@ -17,6 +18,7 @@ export default function App() {
                     <Route path="dashboard" element={<Userdashboard />} />
                     <Route path="admin.dashboard" element={<Admindashboard />} />
                     <Route path="admin.addcategory" element={<Addcategory />} />
+                    <Route path="admin.addword" element={<Addwords />} />
                 </Route>
                 <Route path="/*" element={<Login />} statu replace />
             </Routes>

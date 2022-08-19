@@ -1,11 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from '../api/api';
+import Cookies from 'js-cookie';
 
 const REG_URL = '/categories';
 const Addcategory = () => {
     const errRef = useRef();
     const sucRef = useRef();
     const titleRef = useRef();
+    const navigate = useNavigate();
 
     const [msg, setMsg] = useState('');
     const [title, setTitle] = useState('');
@@ -41,13 +44,19 @@ const Addcategory = () => {
         }
     }
 
+    const Logout = () => {
+        Cookies.remove('token');
+        Cookies.remove('isAdmin');
+        navigate('/');
+    }
+
     return (
         <>
             <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
                 <p className="ms-5 fs-4 position-relative">E-Learning System | Admin</p>
                 <div className="nav position-absolute end-0">
                     <li className="nav-item me-40rem">
-                        <a className="nav-link active" aria-current="page" href="admin.dashboard">Home</a>
+                        <a className="nav-link active" aria-current="page" href="/admin/dashboard">Home</a>
                     </li>
                     <li className="nav-item">
                         <a className="nav-link" href="#">Link2</a>
@@ -56,7 +65,7 @@ const Addcategory = () => {
                         <a className="nav-link" href="#">Link3</a>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link" href="#">Logout</a>
+                        <button className='btn p-0'><a className="nav-link" onClick={Logout}>Logout</a></button>
                     </li>
                 </div>
             </ul>

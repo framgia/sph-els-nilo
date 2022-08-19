@@ -10,7 +10,6 @@ const REG_URL = '/users/login';
 const Login = () => {
 
     const navigate = useNavigate();
-
     const userRef = useRef();
     const errRef = useRef();
     const [user, setUser] = useState('');
@@ -32,14 +31,11 @@ const Login = () => {
             const response = await axios.put(REG_URL,
                 { name: user, password },
                 { headers: { 'Content-Type': 'application/json' } });
-            const accessToken = response?.data?.token;
-            const roles = response?.data?.user?.isAdmin;
-            Cookies.set('Token', accessToken);
-            if (roles) {
-                navigate("/admin.dashboard")
-            } else {
-                navigate("/dashboard");
-            }
+            const accessToken = response.data.token;
+            const roles = response.data.user.isAdmin;
+            Cookies.set('token', accessToken);
+            Cookies.set('isAdmin', roles);
+            parseInt(roles) ? navigate('/admin/dashboard') : navigate('/dashboard');
             setUser('');
             setPassword('');
         } catch (err) {
@@ -87,7 +83,7 @@ const Login = () => {
                 </p>
                 <p style={{ fontSize: '17px' }}>
                     Don't have an account?
-                    <a href='signup' style={{ color: 'blue', textDecoration: 'none', fontSize: '17px' }}> Sign Up</a>
+                    <a href='/signup' style={{ color: 'blue', textDecoration: 'none', fontSize: '17px' }}> Sign Up</a>
                 </p>
             </section>
         </div>

@@ -64,7 +64,7 @@ const Signup = () => {
             await axios.post(REG_URL,
                 { name: user, password, password_confirmation: matchPassword, email },
                 { headers: { 'Content-Type': 'application/json' } });
-            navigate("login");
+            navigate("login", { replace: true });
         } catch (err) {
             if (!err.response) {
                 setErrMsg('No server Response');

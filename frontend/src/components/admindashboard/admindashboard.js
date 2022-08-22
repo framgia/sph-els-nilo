@@ -1,4 +1,14 @@
+import Cookies from "js-cookie";
+import { useNavigate } from "react-router-dom";
+
 const Admindashboard = () => {
+  const navigate = useNavigate();
+
+  const Logout = () => {
+    Cookies.remove('token');
+    Cookies.remove('isAdmin');
+    navigate('/');
+  }
 
   return (
     <><>
@@ -6,7 +16,7 @@ const Admindashboard = () => {
         <p className="ms-5 fs-4 position-relative">E-Learning System | Admin</p>
         <div className="nav position-absolute end-0">
           <li className="nav-item me-40rem">
-            <a className="nav-link active" aria-current="page" href="admin.addcategory">Add a Category</a>
+            <a className="nav-link active" aria-current="page" href="/admin/addcategory">Add a Category</a>
           </li>
           <li className="nav-item">
             <a className="nav-link" href="#">Link2</a>
@@ -15,7 +25,7 @@ const Admindashboard = () => {
             <a className="nav-link" href="#">Link3</a>
           </li>
           <li className="nav-item">
-            <a className="nav-link" href="#">Logout</a>
+            <button className='btn p-0'><a className="nav-link" onClick={Logout}>Logout</a></button>
           </li>
         </div>
       </ul>
@@ -33,7 +43,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 1</a></td>
             <td>Description 1</td>
             <td>
-              <a href="admin.addword">Add word</a><t> | </t>
+              <a href="/admin/addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>
@@ -42,7 +52,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 2</a></td>
             <td>Description 2</td>
             <td>
-              <a href="admin.addword">Add word</a><t> | </t>
+              <a href="/admin/addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>
@@ -51,7 +61,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 3</a></td>
             <td>Description 3</td>
             <td>
-              <a href="admin.addword">Add word</a><t> | </t>
+              <a href="/admin/addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>
@@ -60,7 +70,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 4</a></td>
             <td>Description 4</td>
             <td>
-              <a href="admin.addword">Add word</a><t> | </t>
+              <a href="/admin/addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>
@@ -69,7 +79,7 @@ const Admindashboard = () => {
             <td><a href="#">Title 5</a></td>
             <td>Description 5</td>
             <td>
-              <a href="admin.addword">Add word</a><t> | </t>
+              <a href="/admin/addword">Add word</a><t> | </t>
               <a href="#">Edit</a><t> | </t>
               <a href="#">Delete</a>
             </td>

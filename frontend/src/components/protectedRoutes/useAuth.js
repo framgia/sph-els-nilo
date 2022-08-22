@@ -1,14 +1,15 @@
-import { Outlet } from 'react-router-dom';
 import Login from '../login/login';
 import Cookies from 'js-cookie';
+import { Outlet } from 'react-router-dom';
 
-const useAuth = () => {
-    const user = { loggedIn: Boolean(Cookies.get('Token')) };
-    return user && user.loggedIn;
+const useAuth = (allowedUsers) => {
+    const user = { loggedIn: Boolean(Cookies.get('token')) };
+    const role = allowedUsers.includes(parseInt(Cookies.get('isAdmin')));
+    return user && role;
 };
 
-const ProtectedRoutes = () => {
-    const isAuth = useAuth();
+const ProtectedRoutes = ({ allowedUsers }) => {
+    const isAuth = useAuth(allowedUsers);
     return isAuth ? <Outlet /> : <Login />
 };
 

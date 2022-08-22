@@ -8,19 +8,25 @@ import Admindashboard from './components/admindashboard/admindashboard';
 import Addcategory from './components/admindashboard/addcategroy';
 import Addwords from './components/admindashboard/addwords';
 
+const Roles = {
+    'User': 0,
+    'Admin': 1
+}
 export default function App() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route path="/" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
-                <Route element={<ProtectedRoutes />}>
-                    <Route path="dashboard" element={<Userdashboard />} />
-                    <Route path="admin.dashboard" element={<Admindashboard />} />
-                    <Route path="admin.addcategory" element={<Addcategory />} />
-                    <Route path="admin.addword" element={<Addwords />} />
+                <Route element={<ProtectedRoutes allowedUsers={[Roles.Admin]} />}>
+                    <Route path="/admin/dashboard" element={<Admindashboard />} />
+                    <Route path="/admin/addcategory" element={<Addcategory />} />
+                    <Route path="/admin/addword" element={<Addwords />} />
                 </Route>
-                <Route path="/*" element={<Login />} statu replace />
+                <Route element={<ProtectedRoutes allowedUsers={[Roles.User]} />}>
+                    <Route path="/dashboard" element={<Userdashboard />} />
+                </Route>
+                <Route path="/*" element={<Login />} replace />
             </Routes>
         </BrowserRouter>
     );

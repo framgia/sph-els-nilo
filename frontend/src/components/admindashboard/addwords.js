@@ -1,3 +1,4 @@
+
 const Addwords = () => {
 
     return (
@@ -5,7 +6,7 @@ const Addwords = () => {
             <p className="ms-5 fs-4 position-relative">E-Learning System | Admin</p>
             <div className="nav position-absolute end-0">
                 <li className="nav-item me-40rem">
-                    <a className="nav-link active" aria-current="page" href="admin.dashboard">Home</a>
+                    <a className="nav-link active" aria-current="page" href="/admin/dashboard">Home</a>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link" href="#">Link2</a>
@@ -14,7 +15,7 @@ const Addwords = () => {
                     <a className="nav-link" href="#">Link3</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="#">Logout</a>
+                    <a className="nav-link" href="/logout">Logout</a>
                 </li>
             </div>
         </ul>

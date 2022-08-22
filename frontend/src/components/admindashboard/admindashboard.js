@@ -1,9 +1,28 @@
 import Cookies from "js-cookie";
 import { useNavigate } from "react-router-dom";
+import axios from "../api/api";
+import { useState, useEffect } from "react";
+
+const REG_URL = '/categories';
 
 const Admindashboard = () => {
   const navigate = useNavigate();
+  const [datas, setDatas] = useState([]);
+  const [links, setLinks] = useState([]);
 
+  useEffect(() => {
+    fetchData(1);
+  }, []);
+
+  const fetchData = (pageNumber) => {
+    axios
+      .get(REG_URL + '?page=' + pageNumber)
+      .then((res) => {
+        setLinks(res.data.links);
+        setDatas(res.data.data);
+      })
+  }
+  
   const Logout = () => {
     Cookies.remove('token');
     Cookies.remove('isAdmin');
@@ -11,7 +30,7 @@ const Admindashboard = () => {
   }
 
   return (
-    <><>
+    <>
       <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
         <p className="ms-5 fs-4 position-relative">E-Learning System | Admin</p>
         <div className="nav position-absolute end-0">
@@ -38,80 +57,39 @@ const Admindashboard = () => {
             <th scope="col">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <td><a href="#">Title 1</a></td>
-            <td>Description 1</td>
-            <td>
-              <a href="/admin/addword">Add word</a><t> | </t>
-              <a href="#">Edit</a><t> | </t>
-              <a href="#">Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="#">Title 2</a></td>
-            <td>Description 2</td>
-            <td>
-              <a href="/admin/addword">Add word</a><t> | </t>
-              <a href="#">Edit</a><t> | </t>
-              <a href="#">Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="#">Title 3</a></td>
-            <td>Description 3</td>
-            <td>
-              <a href="/admin/addword">Add word</a><t> | </t>
-              <a href="#">Edit</a><t> | </t>
-              <a href="#">Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="#">Title 4</a></td>
-            <td>Description 4</td>
-            <td>
-              <a href="/admin/addword">Add word</a><t> | </t>
-              <a href="#">Edit</a><t> | </t>
-              <a href="#">Delete</a>
-            </td>
-          </tr>
-          <tr>
-            <td><a href="#">Title 5</a></td>
-            <td>Description 5</td>
-            <td>
-              <a href="/admin/addword">Add word</a><t> | </t>
-              <a href="#">Edit</a><t> | </t>
-              <a href="#">Delete</a>
-            </td>
-          </tr>
-        </tbody>
-
+        {
+          datas.map((pack) => (
+            <>
+              <tbody key={pack.id.toString()}>
+                <tr>
+                  <td><a href="#">{pack.title}</a></td>
+                  <td>{pack.description.substring(0, 75) + ' . . .'}</td>
+                  <td>
+                    <a href="admin.addword">Add word</a><i> | </i>
+                    <a href="#">Edit</a><i> | </i>
+                    <a href="#">Delete</a>
+                  </td>
+                </tr>
+              </tbody>
+            </>
+          ))
+        }
       </table>
-    </><nav className="mt-5 position-fixed end-0" style={{ marginRight: '11rem' }}>
-        <ul class="pagination pagination-sm">
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Previous">
-              <span aria-hidden="true">&laquo;</span>
-            </a>
-          </li>
-          <li class="page-item active"><a class="page-link" href="#">1</a></li>
-          <li class="page-item"><a class="page-link" href="#">2</a></li>
-          <li class="page-item"><a class="page-link" href="#">3</a></li>
-          <li class="page-item"><a class="page-link" href="#">4</a></li>
-          <li class="page-item"><a class="page-link" href="#">5</a></li>
-          <li class="page-item"><a class="page-link" href="#">6</a></li>
-          <li class="page-item"><a class="page-link" href="#">7</a></li>
-          <li class="page-item"><a class="page-link" href="#">8</a></li>
-          <li class="page-item"><a class="page-link" href="#">9</a></li>
-          <li class="page-item">
-            <a class="page-link" href="#" aria-label="Next">
-              <span aria-hidden="true">&raquo;</span>
-            </a>
-          </li>
+      <nav className="mt-5 position-fixed end-0" style={{ marginRight: '11rem' }}>
+        <ul className="pagination">
+          {
+            links.map((page) => (
+              <>
+                <li className="page-item">
+                  <a className="page-link" href="#">
+                    {page.label.replace('&laquo;', '').replace('&raquo;', '')}
+                  </a>
+                </li>
+              </>
+            ))
+          }
         </ul>
       </nav></>
-
   )
 }
-
-export default Admindashboard
+export default Admindashboard;

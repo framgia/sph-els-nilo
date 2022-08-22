@@ -21,9 +21,6 @@ const Admindashboard = () => {
         setLinks(res.data.links);
         setDatas(res.data.data);
       })
-      .catch((err) => {
-        console.log(err)
-      });
   }
   
   const Logout = () => {

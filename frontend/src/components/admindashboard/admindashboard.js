@@ -1,5 +1,5 @@
 import Cookies from "js-cookie";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "../api/api";
 import { useState, useEffect } from "react";
 
@@ -65,7 +65,7 @@ const Admindashboard = () => {
                   <td><a href="#">{pack.title}</a></td>
                   <td>{pack.description.substring(0, 75) + ' . . .'}</td>
                   <td>
-                    <a href="admin.addword">Add word</a><i> | </i>
+                    <a href={"/admin/addword/"+pack.id}>Add word</a><i> | </i>
                     <a href="#">Edit</a><i> | </i>
                     <a href="#">Delete</a>
                   </td>

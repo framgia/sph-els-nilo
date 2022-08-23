@@ -18,13 +18,11 @@ class WordController extends Controller
         $fields = $request->validate([
             'lessonId' => ['required'],
             'choices' => ['required'],
-            'isCorrect' => ['required'],
         ]);
 
         $word = Word::create([
             'lessonId' => $fields['lessonId'],
             'choices' => json_encode($fields['choices']),
-            'isCorrect' => $fields['isCorrect'],
         ]);
 
         return response()->json([
@@ -53,7 +51,6 @@ class WordController extends Controller
         $request->validate([
             'lessonId' => ['required'],
             'choices' => ['required'],
-            'isCorrect' => ['required'],
         ]);
         $choices = Word::findOrFail($id)->update($request->all());
 

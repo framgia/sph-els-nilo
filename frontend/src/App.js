@@ -21,7 +21,7 @@ export default function App() {
                 <Route element={<ProtectedRoutes allowedUsers={[Roles.Admin]} />}>
                     <Route path="/admin/dashboard" element={<Admindashboard />} />
                     <Route path="/admin/addcategory" element={<Addcategory />} />
-                    <Route path="/admin/addword" element={<Addwords />} />
+                    <Route path="/admin/addword/:categoryId" element={<Addwords />} />
                 </Route>
                 <Route element={<ProtectedRoutes allowedUsers={[Roles.User]} />}>
                     <Route path="/dashboard" element={<Userdashboard />} />

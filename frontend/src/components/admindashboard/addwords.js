@@ -1,5 +1,72 @@
+import { useState, useEffect, useRef } from "react";
+import axios from "../api/api";
+import { useParams } from "react-router-dom";
+
+const WORD_URL = '/words';
+const LESSON_URL = '/lessons';
 
 const Addwords = () => {
+    const wordRef = useRef();
+    const sucRef = useRef();
+    const errRef = useRef();
+
+    const [character, setCharacter] = useState('');
+
+    const [a, setA] = useState('');
+    const [ansA, setAnsA] = useState(false);
+
+    const [b, setB] = useState('');
+    const [ansB, setAnsB] = useState(false);
+
+    const [c, setC] = useState('');
+    const [ansC, setAnsC] = useState(false);
+
+    const [d, setD] = useState('');
+    const [ansD, setAnsD] = useState(false);
+
+    const [succ, setSucc] = useState('');
+    const [err, setErr] = useState('');
+
+    useEffect(() => {
+        setSucc('');
+        setErr('');
+    }, [character])
+
+    const categoryId = (useParams().categoryId);
+
+    useEffect(() => {
+        wordRef.current.focus();
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(character);
+
+        const choices = [{ "word": a, "answer": ansA }, { "word": b, "answer": ansB }, { "word": c, "answer": ansC }, { "word": d, "answer": ansD }]
+
+        try {
+            const res = await axios.post(LESSON_URL,
+                { categoryId, character },
+                { headers: { 'Content-Type': 'application/json' } }
+            );
+            const lessonId = res.data.character.id;
+
+            await axios.post(WORD_URL,
+                { lessonId, choices },
+                { headers: { 'Content-Type': 'application/json' } });
+            setSucc('Word Added!');
+            sucRef.current.focus();
+        } catch (err) {
+            if (!err.response) {
+                setErr('No server Response');
+            } else if (err.response?.status === 422) {
+                setErr('Word already exists!');
+            } else {
+                setErr('Addition failed!');
+            }
+            errRef.current.focus();
+        }
+    }
 
     return (
         <><ul className="nav bg-white p-3 w-100 mh-200 mb-5">
@@ -19,20 +86,116 @@ const Addwords = () => {
                 </li>
             </div>
         </ul>
-            <form>
-                <div className="text-white w-50 h-500 m-auto">
+            <form onSubmit={handleSubmit}>
+                <div className="text-white w-50 p-3 h-500 m-auto">
                     <p className="fs-2 fw-light">Add word</p>
                     <div className="d-flex justify-content-between">
                         <div className="mb-3 fs-5">
-                            <label for="exampleFormControlInput1" className="form-label">Title</label>
-                            <input type="text" className="form-control" style={{ width: '20rem' }} id="exampleFormControlInput1" />
+                            <label htmlFor="exampleFormControlInput1" className="form-label">Word</label>
+                            <input
+                                type="text"
+                                ref={wordRef}
+                                className="form-control"
+                                style={{ width: '20rem' }}
+                                id="exampleFormControlInput1"
+                                onChange={(e) => setCharacter(e.target.value)}
+                                required
+                            />
+                            <p ref={errRef} className={err ? "errmsg" : "offscreen"} aria-live="assertive" style={{ fontSize: '.8rem', borderRadius: '5px', alignSelf: 'center', marginTop: '1rem', color: 'red' }}>{err}</p>
+
+                            <p ref={sucRef} className={succ ? "sucmsg" : "offscreen"} aria-live="assertive" style={{ fontSize: '.8rem', borderRadius: '5px', alignSelf: 'center', marginTop: '1rem' }}>{succ}</p>
                         </div>
                         <div className="mb-3 fs-5">
-                            <label for="exampleFormControlTextarea1" className="form-label">Choices</label>
-                            <input type="text" className="form-control" style={{ width: '20rem' }} id="exampleFormControlInput1" />
-                            <input type="text" className="form-control mt-3" style={{ width: '20rem' }} id="exampleFormControlInput1" />
-                            <input type="text" className="form-control mt-3" style={{ width: '20rem' }} id="exampleFormControlInput1" />
-                            <input type="text" className="form-control mt-3" style={{ width: '20rem' }} id="exampleFormControlInput1" />
+
+                            <label htmlFor="exampleFormControlTextarea1" className="form-label">Choices</label>
+
+
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">A. </span>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    aria-label="Text input with checkbox"
+                                    onClick={(e) => setA(e.target.value)}
+                                    required
+                                />
+                                <div className="input-group-text">
+                                    <input
+                                        type="checkbox"
+                                        value={true}
+                                        className="form-check-input mt-0"
+                                        aria-label="Checkbox htmlFor following text input"
+                                        onClick={(e) => setAnsA(e.target.value)}
+
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">B. </span>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    aria-label="Text input with checkbox"
+                                    onChange={(e) => setB(e.target.value)}
+                                    required
+                                />
+                                <div className="input-group-text">
+                                    <input
+                                        className="form-check-input mt-0"
+                                        type="checkbox"
+                                        value="true"
+                                        aria-label="Checkbox htmlFor following text input"
+                                        onClick={(e) => setAnsB(e.target.value)}
+
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">C. </span>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    aria-label="Text input with checkbox"
+                                    onChange={(e) => setC(e.target.value)}
+                                    required
+                                />
+                                <div className="input-group-text">
+                                    <input
+                                        className="form-check-input mt-0"
+                                        type="checkbox"
+                                        value="true"
+                                        aria-label="Checkbox htmlFor following text input"
+                                        onClick={(e) => setAnsC(e.target.value)}
+
+                                    />
+                                </div>
+                            </div>
+
+                            <div className="input-group mb-3">
+                                <span className="input-group-text">D. </span>
+
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    aria-label="Text input with checkbox"
+                                    onChange={(e) => setD(e.target.value)}
+                                    required
+                                />
+                                <div className="input-group-text">
+                                    <input
+                                        className="form-check-input mt-0"
+                                        type="checkbox"
+                                        value="true"
+                                        aria-label="Checkbox htmlFor following text input"
+                                        onClick={(e) => setAnsD(e.target.value)}
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary position-fixed end-50">Submit</button>

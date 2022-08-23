@@ -54,7 +54,10 @@ const Categorydashboard = () => {
                 <div style={{ width: '540px', height:'300px', border: 'solid 2px', backgroundColor: 'white', margin: 'auto', padding: '1rem', borderRadius: '1rem' }}>
                   <p className="text-start fw-bold fs-4">{pack.title}</p>
                   <p className="text-start">{pack.description.substring(0, 250) + ' . . .'}</p>
-                  <button type="submit" className="btn btn-primary float-end mb-1" style={{ width: '6rem' }}>Start</button>
+                  <a href="/quiz/dashboard"><button 
+                    type="submit" 
+                    className="btn btn-primary float-end mb-1" 
+                    style={{ width: '6rem' }}>Start</button></a>
                 </div>
               </div>
             ))

@@ -7,6 +7,8 @@ import Userdashboard from './components/userdashboard/userdashboard';
 import Admindashboard from './components/admindashboard/admindashboard';
 import Addcategory from './components/admindashboard/addcategroy';
 import Addwords from './components/admindashboard/addwords';
+import Categorydashboard from './components/userdashboard/categoriesPage';
+import Quizitem from './components/userdashboard/quizPage';
 
 const Roles = {
     'User': 0,
@@ -25,6 +27,8 @@ export default function App() {
                 </Route>
                 <Route element={<ProtectedRoutes allowedUsers={[Roles.User]} />}>
                     <Route path="/dashboard" element={<Userdashboard />} />
+                    <Route path="/category/dashboard" element={<Categorydashboard />} />
+                    <Route path="/quiz/dashboard" element={<Quizitem />} />
                 </Route>
                 <Route path="/*" element={<Login />} replace />
             </Routes>

@@ -33,8 +33,10 @@ const Login = () => {
                 { headers: { 'Content-Type': 'application/json' } });
             const accessToken = response.data.token;
             const roles = response.data.user.isAdmin;
+            const use = response.data.user.name;
             Cookies.set('token', accessToken);
             Cookies.set('isAdmin', roles);
+            Cookies.set('user', use);
             parseInt(roles) ? navigate('/admin/dashboard') : navigate('/dashboard');
             setUser('');
             setPassword('');

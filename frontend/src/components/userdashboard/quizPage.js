@@ -10,27 +10,27 @@ const Quizitem = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(ans);
     }
 
     return (
-        <><ul className="nav bg-white p-3 w-100 mh-200 mb-5">
-            <p className="ms-5 fs-4 position-relative">E-Learning System | Admin</p>
-            <div className="nav position-absolute end-0">
-                <li className="nav-item me-40rem">
-                    <a className="nav-link active" aria-current="page" href="/dashboard">Home</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Link2</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Link3</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/logout">Logout</a>
-                </li>
-            </div>
-        </ul>
+        <>
+            <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
+                <p className="ms-5 fs-4 position-relative">E-Learning System | Admin</p>
+                <div className="nav position-absolute end-0">
+                    <li className="nav-item me-40rem">
+                        <a className="nav-link active" aria-current="page" href="/dashboard">Home</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">Link2</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="#">Link3</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/logout">Logout</a>
+                    </li>
+                </div>
+            </ul>
             <form onSubmit={handleSubmit}>
                 <div className="text-white w-75 h-500 m-auto">
                     <p className="fs-2 fw-light">Title of the category</p>

@@ -26,6 +26,7 @@ const Categorydashboard = () => {
     Cookies.remove('isAdmin');
     navigate('/');
   }
+
   return (
     <>
       <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
@@ -46,24 +47,21 @@ const Categorydashboard = () => {
         </div>
       </ul>
 
-        <div className="row gap-4 justify-content-evenly mx-auto" style={{ maxWidth: '80rem', minWidth: '30rem', padding: '1rem', width: '100vw' }}>
-          <div><span className="text-white fs-3 fw-bold" style={{ marginLeft: '5rem' }}>Categories</span></div>
-          {
-            datas.map((pack) => (
-              <div className="col-2 col-sm-5">
-                <div style={{ width: '540px', height:'300px', border: 'solid 2px', backgroundColor: 'white', margin: 'auto', padding: '1rem', borderRadius: '1rem' }}>
-                  <p className="text-start fw-bold fs-4">{pack.title}</p>
-                  <p className="text-start">{pack.description.substring(0, 250) + ' . . .'}</p>
-                  <a href="/quiz/dashboard"><button 
-                    type="submit" 
-                    className="btn btn-primary float-end mb-1" 
-                    style={{ width: '6rem' }}>Start</button></a>
-                </div>
-              </div>
-            ))
-          }
-
-        </div>
+      <div className="row gap-4 justify-content-evenly mx-auto" style={{ maxWidth: '80rem', minWidth: '30rem', padding: '1rem', width: '100vw' }}>
+        <div><span className="text-white fs-3 fw-bold" style={{ marginLeft: '5rem' }}>Categories</span></div>
+        {datas.map((pack) => (
+          <div className="col-2 col-sm-5">
+            <div style={{ width: '540px', height: '300px', border: 'solid 2px', backgroundColor: 'white', margin: 'auto', padding: '1rem', borderRadius: '1rem' }}>
+              <p className="text-start fw-bold fs-4">{pack.title}</p>
+              <p className="text-start">{pack.description.substring(0, 250) + ' . . .'}</p>
+              <a href="/quiz/dashboard"><button
+                type="submit"
+                className="btn btn-primary float-end mb-1"
+                style={{ width: '6rem' }}>Start</button></a>
+            </div>
+          </div>
+        ))}
+      </div>
     </>
   )
 }

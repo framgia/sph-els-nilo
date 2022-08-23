@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('lessonId')->constrained('lessons')->cascadeOnDelete()->cascadeOnUpdate();
             $table->json('choices');
-            $table->string('isCorrect');
             $table->timestamps();
         });
     }

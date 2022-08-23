@@ -34,9 +34,9 @@ class LessonController extends Controller
     public function show(Request $request)
     {
         $request->validate([
-            'categoryId' => ['required'],
+            'character' => ['required'],
         ]);
-        $character = Lesson::where('categoryId', $request->categoryId)->get();
+        $character = Lesson::where('character', $request->character)->first();
 
         return response()->json([
             'character' => $character,

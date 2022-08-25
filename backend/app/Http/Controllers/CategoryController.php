@@ -33,7 +33,7 @@ class CategoryController extends Controller
     // Display Description
     public function show($id)
     {
-        $category = Category::where('id', $id)->first();
+        $category = Category::findOrFail($id);
 
         return response()->json([
             'category' => $category,

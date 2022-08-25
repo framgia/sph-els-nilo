@@ -18,9 +18,6 @@ const Quizitem = () => {
 
     useEffect(() => {
         fetchTitle(categoryId);
-    }, [])
-
-    useEffect(() => {
         fetchWord(categoryId);
     }, [])
 
@@ -42,7 +39,6 @@ const Quizitem = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(ans);
         if (counter + 1 < word.length) {
             setCounter(counter + 1)
         } else {

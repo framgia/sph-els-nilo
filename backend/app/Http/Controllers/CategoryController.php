@@ -31,12 +31,9 @@ class CategoryController extends Controller
     }
 
     // Display Description
-    public function show(Request $request)
+    public function show($id)
     {
-        $request->validate([
-            'title' => ['required'],
-        ]);
-        $category = Category::where('title', $request->title)->first();
+        $category = Category::where('id', $id)->first();
 
         return response()->json([
             'category' => $category,

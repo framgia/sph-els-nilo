@@ -31,15 +31,18 @@ class LessonController extends Controller
     }
 
     // Fetch a Character
-    public function show(Request $request)
+    public function show($id)
     {
-        $request->validate([
-            'character' => ['required'],
-        ]);
-        $character = Lesson::where('character', $request->character)->first();
+        $choice =[];
+        $character = Lesson::where('categoryId', $id)->get();
+
+        foreach ($character as $choices) {
+            array_push($choice, $choices->word);
+        }
 
         return response()->json([
             'character' => $character,
+            'choices' => $choice,
             'message' => 'Character Fetched',
         ]);
     }

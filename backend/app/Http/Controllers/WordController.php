@@ -32,13 +32,9 @@ class WordController extends Controller
     }
 
     // Fetch the Choices
-    public function show(Request $request)
+    public function show($id)
     {
-        $request->validate([
-            'lessonId' => ['required'],
-        ]);
-        $choices = Word::where('lessonId', $request->lessonId)->get('choices');
-
+        $choices = Word::where('lessonId', $id)->get('choices');
         return response()->json([
             'choices' => $choices,
             'message' => 'Choices Fetched',

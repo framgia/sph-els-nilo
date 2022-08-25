@@ -28,7 +28,7 @@ export default function App() {
                 <Route element={<ProtectedRoutes allowedUsers={[Roles.User]} />}>
                     <Route path="/dashboard" element={<Userdashboard />} />
                     <Route path="/category/dashboard" element={<Categorydashboard />} />
-                    <Route path="/quiz/dashboard" element={<Quizitem />} />
+                    <Route path="/quiz/dashboard/:categoryId" element={<Quizitem />} />
                 </Route>
                 <Route path="/*" element={<Login />} replace />
             </Routes>

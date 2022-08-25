@@ -18,6 +18,7 @@ const Categorydashboard = () => {
       .get(REG_URL + '?page=' + pageNumber)
       .then((res) => {
         setDatas(res.data.data);
+        console.log(res.data.data);
       })
   }
 
@@ -54,7 +55,7 @@ const Categorydashboard = () => {
             <div style={{ width: '540px', height: '300px', border: 'solid 2px', backgroundColor: 'white', margin: 'auto', padding: '1rem', borderRadius: '1rem' }}>
               <p className="text-start fw-bold fs-4">{pack.title}</p>
               <p className="text-start">{pack.description.substring(0, 250) + ' . . .'}</p>
-              <a href="/quiz/dashboard"><button
+              <a href={"/quiz/dashboard/"+pack.id}><button
                 type="submit"
                 className="btn btn-primary float-end mb-1"
                 style={{ width: '6rem' }}>Start</button></a>

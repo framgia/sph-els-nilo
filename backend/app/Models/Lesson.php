@@ -10,4 +10,9 @@ class Lesson extends Model
     use HasFactory;
 
     protected $guarded = [];
+
+    public function word()
+    {
+        return $this->hasOne(Word::class, 'lessonId', 'id');
+    }
 }

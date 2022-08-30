@@ -31,16 +31,10 @@ const Categorydashboard = () => {
   return (
     <>
       <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
-        <p className="ms-5 fs-4 position-relative">E-Learning System | Hello, <i>{Cookies.get('user')}</i>!</p>
+        <p className="ms-5 fs-4 position-relative">E-Learning | Choose a category, <i>{Cookies.get('user')}</i>!</p>
         <div className="nav position-absolute end-0">
           <li className="nav-item me-40rem">
             <a className="nav-link active" aria-current="page" href="/dashboard">Home</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">Link2</a>
-          </li>
-          <li className="nav-item">
-            <a className="nav-link" href="#">Link3</a>
           </li>
           <li className="nav-item">
             <button className='btn p-0'><a className="nav-link" onClick={Logout}>Logout</a></button>
@@ -48,21 +42,20 @@ const Categorydashboard = () => {
         </div>
       </ul>
 
-      <div className="row gap-4 justify-content-evenly mx-auto" style={{ maxWidth: '80rem', minWidth: '30rem', padding: '1rem', width: '100vw' }}>
-        <div><span className="text-white fs-3 fw-bold" style={{ marginLeft: '5rem' }}>Categories</span></div>
-        {datas.map((pack) => (
-          <div className="col-2 col-sm-5">
-            <div style={{ width: '540px', height: '300px', border: 'solid 2px', backgroundColor: 'white', margin: 'auto', padding: '1rem', borderRadius: '1rem' }}>
-              <p className="text-start fw-bold fs-4">{pack.title}</p>
-              <p className="text-start">{pack.description.substring(0, 250) + ' . . .'}</p>
-              <a href={"/quiz/dashboard/"+pack.id}><button
-                type="submit"
-                className="btn btn-primary float-end mb-1"
-                style={{ width: '6rem' }}>Start</button></a>
+      <div className="mx-auto w-75 my-auto h-auto">
+      <p className="text-white fs-2">Categories</p>
+            <div class="row row-cols-2 w-100 mx-auto">
+              {datas.map((pack) => (
+                <div className="bg-white p-3 my-3 mx-4 rounded position-relative" style={{ width: '28rem' }}>
+                    <p className="text-start fw-bold fs-4">{pack.title}</p>
+                    <p className="text-start">{pack.description.substring(0, 250) + ' . . .'}</p>
+                    <a href={"/quiz/dashboard/" + pack.id}><button
+                      type="submit"
+                      className="btn btn-primary position-absolute bottom-0 end-0 me-3 mb-1 w-25 rounded-4">Start</button></a>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
     </>
   )
 }

@@ -58,13 +58,12 @@ class CategoryController extends Controller
     }
 
     // Deletion of Category
-    public function destroy(Request $request)
+    public function destroy($id)
     {
-        $categoryId = Category::where('title', $request->title)->first('id')->id;
-        Category::destroy($categoryId);
+        Category::destroy($id);
 
         return response()->json([
-            'message' => 'Category Deleted',
+            'message' => 'Category Deleted'
         ]);
     }
 }

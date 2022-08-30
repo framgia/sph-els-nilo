@@ -1,28 +1,23 @@
+import React from 'react';
 import { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../api/api';
 import Cookies from 'js-cookie';
+import { ToastContainer, toast } from 'react-toastify';
+import { useLocation } from 'react-router-dom';
+
 
 const REG_URL = '/categories';
 const Addcategory = () => {
-    const errRef = useRef();
-    const sucRef = useRef();
+    const loc = useLocation();
     const titleRef = useRef();
     const navigate = useNavigate();
-
-    const [msg, setMsg] = useState('');
     const [title, setTitle] = useState('');
-    const [sucmsg, setSucMsg] = useState('');
     const [description, setDescription] = useState('');
 
     useEffect(() => {
         titleRef.current.focus();
     }, []);
-
-    useEffect(() => {
-        setMsg('');
-        setSucMsg('');
-    }, [title, description]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -30,17 +25,16 @@ const Addcategory = () => {
             await axios.post(REG_URL,
                 { title, description },
                 { headers: { 'Content-Type': 'application/json' } });
-            setSucMsg('Category Added!');
-            sucRef.current.focus();
+            toast.success('Category Added!', {toastId: 1})
+            setTimeout(()=>{window.location.reload();}, 2000);
         } catch (err) {
             if (!err.response) {
-                setMsg('No server Response');
+                toast.error('No server Response', {toastId: 1});
             } else if (err.response?.status === 422) {
-                setMsg('Category title already exists!');
+                toast.error('Category already Exist!', {toastId: 1});
             } else {
-                setMsg('Addition failed!');
+                toast.error('Addition failed!', {toastId: 1});
             }
-            errRef.current.focus();
         }
     }
 
@@ -57,12 +51,6 @@ const Addcategory = () => {
                 <div className="nav position-absolute end-0">
                     <li className="nav-item me-40rem">
                         <a className="nav-link active" aria-current="page" href="/admin/dashboard">Home</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Link2</a>
-                    </li>
-                    <li className="nav-item">
-                        <a className="nav-link" href="#">Link3</a>
                     </li>
                     <li className="nav-item">
                         <button className='btn p-0'><a className="nav-link" onClick={Logout}>Logout</a></button>
@@ -96,10 +84,18 @@ const Addcategory = () => {
                         />
                     </div>
 
-                    <p ref={errRef} className={msg ? "errmsg" : "offscreen"} aria-live="assertive" style={{ fontSize: '.8rem', borderRadius: '5px', alignSelf: 'center', marginTop: '1rem', color: 'red' }}>{msg}</p>
-
-                    <p ref={sucRef} className={sucmsg ? "sucmsg" : "offscreen"} aria-live="assertive" style={{ fontSize: '.8rem', borderRadius: '5px', alignSelf: 'center', marginTop: '1rem' }}>{sucmsg}</p>
-
+                    <ToastContainer
+                        position="bottom-left"
+                        style={{ fontSize: '0.8rem' }}
+                        autoClose={2000}
+                        hideProgressBar={false}
+                        newestOnTop={false}
+                        closeOnClick
+                        rtl={false}
+                        pauseOnFocusLoss
+                        draggable
+                        pauseOnHover
+                    />
                     <button
                         type="submit"
                         className="btn btn-primary position-fixed end-50"

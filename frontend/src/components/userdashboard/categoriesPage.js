@@ -15,7 +15,7 @@ const Categorydashboard = () => {
 
   const fetchData = (pageNumber) => {
     axios
-      .get(REG_URL + '?page=' + pageNumber)
+      .get(`${REG_URL}?page=${pageNumber}`)
       .then((res) => {
         setDatas(res.data.data);
         console.log(res.data.data);

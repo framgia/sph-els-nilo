@@ -17,7 +17,7 @@ const Admindashboard = () => {
 
   const fetchData = (pageNumber) => {
     axios
-      .get(CAT_URL + '?page=' + pageNumber)
+      .get(`${CAT_URL}?page=${pageNumber}`)
       .then((res) => {
         setLinks(res.data.links);
         setDatas(res.data.data);
@@ -26,7 +26,7 @@ const Admindashboard = () => {
 
   const Delete = (id) => {
     axios
-      .delete(CAT_URL + '/' + id)
+      .delete(`${CAT_URL}/${id}`)
       .then(() => {
         fetchData();
       })

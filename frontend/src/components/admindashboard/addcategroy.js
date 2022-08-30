@@ -4,12 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import axios from '../api/api';
 import Cookies from 'js-cookie';
 import { ToastContainer, toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
 
-
-const REG_URL = '/categories';
+const CAT_URL = '/categories';
 const Addcategory = () => {
-    const loc = useLocation();
     const titleRef = useRef();
     const navigate = useNavigate();
     const [title, setTitle] = useState('');
@@ -22,7 +19,7 @@ const Addcategory = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(REG_URL,
+            await axios.post(CAT_URL,
                 { title, description },
                 { headers: { 'Content-Type': 'application/json' } });
             toast.success('Category Added!', {toastId: 1})

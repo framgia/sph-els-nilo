@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "../api/api";
 import { useState, useEffect } from "react";
 
-const REG_URL = '/categories';
+const CAT_URL = '/categories';
 
 const Userdashboard = () => {
   const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Userdashboard = () => {
 
   const fetchData = (pageNumber) => {
     axios
-      .get(REG_URL + '?page=' + pageNumber)
+      .get(`${CAT_URL}?page=${pageNumber}`)
       .then((res) => {
         setDatas(res.data.data);
       })

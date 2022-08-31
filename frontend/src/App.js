@@ -10,6 +10,7 @@ import Addwords from './components/admindashboard/addwords';
 import Categorydashboard from './components/userdashboard/categoriesPage';
 import Quizitem from './components/userdashboard/quizPage';
 import Quizresult from './components/userdashboard/quizResult';
+import Wordslearned from './components/userdashboard/wordsLearned';
 
 const Roles = {
     'User': 0,
@@ -31,6 +32,7 @@ export default function App() {
                     <Route path="/category/dashboard" element={<Categorydashboard />} />
                     <Route path="/quiz/dashboard/:categoryId" element={<Quizitem />} />
                     <Route path="/quiz/results" element={<Quizresult />} />
+                    <Route path="/words/learned" element={<Wordslearned />} />
                 </Route>
                 <Route path="/*" element={<Login />} replace />
             </Routes>

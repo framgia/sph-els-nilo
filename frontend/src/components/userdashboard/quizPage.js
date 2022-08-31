@@ -3,7 +3,6 @@ import { useParams, useNavigate } from "react-router-dom";
 import axios from "../api/api";
 import Cookies from "js-cookie";
 import { ToastContainer, toast } from 'react-toastify';
-import { useLocation } from 'react-router-dom';
 
 const CAT_URL = '/categories/';
 const LESS_URL = '/lessons/';
@@ -49,7 +48,7 @@ const Quizitem = () => {
         } else {
             const count = ans.filter(w => w === 'true').length;
             toast.success('Submitting, please wait!', { toastId: 1 })
-            setTimeout(()=>{navigate('/quiz/results', { state: { correct: count, title: title, length: word.length, charAnswers: charAnswers } })}, 3000);
+            setTimeout(() => { navigate('/quiz/results', { state: { correct: count, title: title, length: word.length, charAnswers: charAnswers } }) }, 3000);
         }
     }
 
@@ -95,7 +94,7 @@ const Quizitem = () => {
                                         const arry = [];
                                         let a = JSON.parse(pack.word.choices);
                                         a.map((d) => {
-                                            arry.push(<button type="submit" value={d.valid} onClick={(e) => setAns(prevArray => [...prevArray, e.target.value], setCharAnswers(prevArray => [...prevArray, { "choice": d.choice, "character": word[counter].character, "isCorrect": d.valid }]))} className="btn btn-primary m-2" key={arry.length} style={{ width: '300px' }}>{d.choice}</button>)
+                                            arry.push(<button type="submit" value={d.valid} onClick={(e) => setAns(prevArray => [...prevArray, e.target.value], setCharAnswers(prevArray => [...prevArray, { "userId": Cookies.get('userId'), "choice": d.choice, "character": word[counter].character, "isCorrect": d.valid }]))} className="btn btn-primary m-2" key={arry.length} style={{ width: '300px' }}>{d.choice}</button>)
                                         })
                                         return arry;
                                     }

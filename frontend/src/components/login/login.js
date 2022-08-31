@@ -24,7 +24,6 @@ const Login = () => {
         setErrMsg('');
     }, [user, password])
 
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
@@ -34,9 +33,11 @@ const Login = () => {
             const accessToken = response.data.token;
             const roles = response.data.user.isAdmin;
             const use = response.data.user.name;
+            const userId = response.data.user.id;
             Cookies.set('token', accessToken);
             Cookies.set('isAdmin', roles);
             Cookies.set('user', use);
+            Cookies.set('userId', userId);
             parseInt(roles) ? navigate('/admin/dashboard') : navigate('/dashboard');
             setUser('');
             setPassword('');

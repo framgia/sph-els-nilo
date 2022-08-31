@@ -2,15 +2,29 @@ import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Cookies from "js-cookie";
+import { useEffect } from "react";
+import axios from "../api/api";
 
+const LOG_URL = "/logs";
 const Quizresult = () => {
-    const loc = useLocation();
+    const location = useLocation();
+    useEffect(() => {
+        location.state.charAnswers.map((valid) => (
+            valid.isCorrect
+                ?
+                axios.post(LOG_URL,
+                    { userId: valid.userId, word: valid.character, answer: valid.choice },
+                    { headers: { 'Content-Type': 'application/json' } })
+                :
+                false
+        ))
+    }, []);
     return (
         <>
             <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
                 <p className="ms-5 fs-4 position-relative">
                     E-Learning |
-                    {(loc.state.correct < 0.5 * loc.state.length) ? <i className="text-danger"> Better luck next time</i> : (loc.state.correct === loc.state.length) ? <i className="text-danger"> Excellent</i> : <i className="text-danger"> You passed</i>
+                    {(location.state.correct < 0.5 * location.state.length) ? <i className="text-danger"> Better luck next time</i> : (location.state.correct === location.state.length) ? <i className="text-danger"> Excellent</i> : <i className="text-danger"> You passed</i>
                     }, <i>{Cookies.get('user')}</i>!
                 </p>
                 <div className="nav position-absolute end-0">
@@ -28,10 +42,10 @@ const Quizresult = () => {
             <div className="mx-auto w-75 h-auto bg-white rounded">
                 <div className="d-flex justify-content-between mx-4">
                     <div className="p-2 text-black fw-bold fs-4">
-                        {loc.state.title}
+                        {location.state.title}
                     </div>
                     <div className="p-2 text-black fw-bold fs-5">
-                        <i>Result: {(loc.state.correct < 0.5 * loc.state.length) ? <i className="text-danger">{loc.state.correct}</i> : loc.state.correct} out of {loc.state.length}</i>
+                        <i>Result: {(location.state.correct < 0.5 * location.state.length) ? <i className="text-danger">{location.state.correct}</i> : location.state.correct} out of {location.state.length}</i>
                     </div>
                 </div>
                 <div className="text-black d-flex justify-content-evenly w-100 mx-auto">
@@ -45,7 +59,7 @@ const Quizresult = () => {
                         </thead>
                         <tbody>
 
-                            {loc.state.charAnswers.map((pack) => {
+                            {location.state.charAnswers.map((pack) => {
                                 return (<>
                                     <tr>
                                         <td>{pack.isCorrect ? <FontAwesomeIcon icon={faCheck} /> : <FontAwesomeIcon icon={faTimes} />}</td>

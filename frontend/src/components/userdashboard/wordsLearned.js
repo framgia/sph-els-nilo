@@ -1,8 +1,19 @@
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { faker } from '@faker-js/faker';
+import axios from "../api/api";
+
+const LOG_URL = '/logs';
+
 const Wordslearned = () => {
-    const loc = useLocation();
+    const [data, setData] = useState([]);
+    useEffect(() => {
+        axios
+            .get(LOG_URL)
+            .then((res) => {
+                setData(res.data)
+            })
+    }, [])
     return (
         <>
             <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
@@ -37,7 +48,7 @@ const Wordslearned = () => {
                 <div className="bg-white w-75 h-auto p-3 m-2 rounded">
                     <span className="fw-bold">Words Learned</span>
                     <div className="border-top border-primary m-2 p-5">
-                        <table class="table text-center table-borderless">
+                        <table className="table text-center table-borderless">
                             <thead>
                                 <tr>
                                     <th scope="col">Words</th>
@@ -45,14 +56,12 @@ const Wordslearned = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Japanese</td>
-                                    <td>English</td>
-                                </tr>
-                                <tr>
-                                    <td>Japanese</td>
-                                    <td>English</td>
-                                </tr>
+                                {data.map((value) => (
+                                    <tr>
+                                        <td>{value.word}</td>
+                                        <td>{value.answer}</td>
+                                    </tr>
+                                ))}
                             </tbody>
                         </table>
                     </div>
@@ -61,4 +70,5 @@ const Wordslearned = () => {
         </>
     )
 }
+
 export default Wordslearned;

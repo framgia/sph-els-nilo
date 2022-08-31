@@ -9,6 +9,7 @@ import Addcategory from './components/admindashboard/addcategroy';
 import Addwords from './components/admindashboard/addwords';
 import Categorydashboard from './components/userdashboard/categoriesPage';
 import Quizitem from './components/userdashboard/quizPage';
+import Quizresult from './components/userdashboard/quizResult';
 
 const Roles = {
     'User': 0,
@@ -29,6 +30,7 @@ export default function App() {
                     <Route path="/dashboard" element={<Userdashboard />} />
                     <Route path="/category/dashboard" element={<Categorydashboard />} />
                     <Route path="/quiz/dashboard/:categoryId" element={<Quizitem />} />
+                    <Route path="/quiz/results" element={<Quizresult />} />
                 </Route>
                 <Route path="/*" element={<Login />} replace />
             </Routes>

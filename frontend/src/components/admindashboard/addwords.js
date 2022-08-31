@@ -1,15 +1,13 @@
 import { useState, useEffect, useRef } from "react";
 import axios from "../api/api";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from 'react-toastify';
 
 const WORD_URL = '/words';
 const LESSON_URL = '/lessons';
 
 const Addwords = () => {
     const wordRef = useRef();
-    const sucRef = useRef();
-    const errRef = useRef();
-    const navigate = useNavigate();
 
     const [character, setCharacter] = useState('');
     const [a, setA] = useState('');
@@ -20,13 +18,6 @@ const Addwords = () => {
     const [ansC, setAnsC] = useState(false);
     const [d, setD] = useState('');
     const [ansD, setAnsD] = useState(false);
-    const [succ, setSucc] = useState('');
-    const [err, setErr] = useState('');
-
-    useEffect(() => {
-        setSucc('');
-        setErr('');
-    }, [character])
 
     const categoryId = (useParams().categoryId);
 
@@ -36,7 +27,6 @@ const Addwords = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log(character);
         const choices = [{ "valid": ansA, "choice": a }, { "valid": ansB, "choice": b }, { "valid": ansC, "choice": c }, { "valid": ansD, "choice": d }]
         try {
             const res = await axios.post(LESSON_URL,
@@ -48,57 +38,61 @@ const Addwords = () => {
             await axios.post(WORD_URL,
                 { lessonId, choices },
                 { headers: { 'Content-Type': 'application/json' } });
-            setSucc('Word Added!');
-            sucRef.current.focus();
+            toast.success('Word Added!', { toastId: 1 });
+            setTimeout(()=>{ window.location.reload(); }, 2000);
         } catch (err) {
             if (!err.response) {
-                setErr('No server Response');
+                toast.error('No server Response', { toastId: 1 });
             } else if (err.response?.status === 422) {
-                setErr('Word already exists!');
+                toast.error('Word already exists!', { toastId: 1 });
             } else {
-                setErr('Addition failed!');
+                toast.error('Addition failed!', { toastId: 1 });
             }
-            errRef.current.focus();
         }
     }
 
     return (
-        <><ul className="nav bg-white p-3 w-100 mh-200 mb-5">
-            <p className="ms-5 fs-4 position-relative">E-Learning System | Admin</p>
-            <div className="nav position-absolute end-0">
-                <li className="nav-item me-40rem">
-                    <a className="nav-link active" aria-current="page" href="/admin/dashboard">Home</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Link2</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="#">Link3</a>
-                </li>
-                <li className="nav-item">
-                    <a className="nav-link" href="/logout">Logout</a>
-                </li>
-            </div>
-        </ul>
+        <>
+            <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
+                <p className="ms-5 fs-4 position-relative">E-Learning System | Admin</p>
+                <div className="nav position-absolute end-0">
+                    <li className="nav-item me-40rem">
+                        <a className="nav-link active" aria-current="page" href="/admin/dashboard">Home</a>
+                    </li>
+                    <li className="nav-item">
+                        <a className="nav-link" href="/logout">Logout</a>
+                    </li>
+                </div>
+            </ul>
             <form onSubmit={handleSubmit}>
                 <div className="text-white w-50 p-3 h-500 m-auto">
                     <p className="fs-2 fw-light">Add word</p>
                     <div className="d-flex justify-content-between">
-                        <div className="mb-3 fs-5">
+                        <div className="mb-3 fs-5 h-100 w-50 mx-auto">
                             <label htmlFor="exampleFormControlInput1" className="form-label">Word</label>
                             <input
                                 type="text"
                                 ref={wordRef}
-                                className="form-control"
-                                style={{ width: '20rem' }}
+                                className="form-control w-75"
                                 id="exampleFormControlInput1"
                                 onChange={(e) => setCharacter(e.target.value)}
                                 required
                             />
-                            <p ref={errRef} className={err ? "errmsg" : "offscreen"} aria-live="assertive" style={{ fontSize: '.8rem', borderRadius: '5px', alignSelf: 'center', marginTop: '1rem', color: 'red' }}>{err}</p>
-                            <p ref={sucRef} className={succ ? "sucmsg" : "offscreen"} aria-live="assertive" style={{ fontSize: '.8rem', borderRadius: '5px', alignSelf: 'center', marginTop: '1rem' }}>{succ}</p>
+                            <ToastContainer
+                                position="bottom-left"
+                                style={{ fontSize: '0.8rem' }}
+                                autoClose={2000}
+                                hideProgressBar={false}
+                                newestOnTop={false}
+                                closeOnClick
+                                rtl={false}
+                                pauseOnFocusLoss
+                                draggable
+                                pauseOnHover
+
+                            />
                         </div>
-                        <div className="mb-3 fs-5">
+                        <div className="mb-3 fs-5 mx-auto">
                             <label htmlFor="exampleFormControlTextarea1" className="form-label">Choices</label>
                             <div className="input-group mb-3">
                                 <span className="input-group-text">A. </span>
@@ -112,10 +106,10 @@ const Addwords = () => {
                                 <div className="input-group-text">
                                     <input
                                         type="checkbox"
-                                        value={true}
-                                        className="form-check-input mt-0"
+                                        value={ansA}
+                                        className="form-check-input"
                                         aria-label="Checkbox htmlFor following text input"
-                                        onClick={(e) => setAnsA(e.target.value)}
+                                        onChange={() => { setAnsA(!ansA) }}
                                     />
                                 </div>
                             </div>
@@ -132,9 +126,9 @@ const Addwords = () => {
                                     <input
                                         className="form-check-input mt-0"
                                         type="checkbox"
-                                        value="true"
+                                        value={ansB}
                                         aria-label="Checkbox htmlFor following text input"
-                                        onClick={(e) => setAnsB(e.target.value)}
+                                        onChange={() => { setAnsB(!ansB) }}
                                     />
                                 </div>
                             </div>
@@ -151,9 +145,9 @@ const Addwords = () => {
                                     <input
                                         className="form-check-input mt-0"
                                         type="checkbox"
-                                        value="true"
+                                        value={ansC}
                                         aria-label="Checkbox htmlFor following text input"
-                                        onClick={(e) => setAnsC(e.target.value)}
+                                        onChange={() => { setAnsC(!ansC) }}
                                     />
                                 </div>
                             </div>
@@ -170,15 +164,21 @@ const Addwords = () => {
                                     <input
                                         className="form-check-input mt-0"
                                         type="checkbox"
-                                        value="true"
+                                        value={ansD}
                                         aria-label="Checkbox htmlFor following text input"
-                                        onClick={(e) => setAnsD(e.target.value)}
+                                        onChange={() => { setAnsD(!ansD) }}
                                     />
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <button type="submit" className="btn btn-primary position-fixed end-50">Submit</button>
+                    <button
+                        type="submit"
+                        disabled={!character || !a || !b || !c || !d || !(ansA || ansB || ansC || ansD) ? true : false}
+                        className="btn btn-primary position-fixed end-50"
+                    >
+                        Submit
+                    </button>
                 </div>
             </form>
         </>

@@ -16,8 +16,9 @@ return new class extends Migration
         Schema::create('logs', function (Blueprint $table) {
             $table->id();
             $table->foreignId('userId')->constrained('users')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->string('word');
-            $table->string('answer');
+            $table->foreignId('categoryId')->constrained('categories')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->json('learned');
+            $table->integer('maxItems');
             $table->timestamps();
         });
     }

@@ -1,17 +1,22 @@
-import { useState, useEffect } from "react";
 import Cookies from "js-cookie";
 import { faker } from '@faker-js/faker';
+import { useEffect, useState } from "react";
 import axios from "../api/api";
 
-const LOG_URL = '/logs';
-
+const LOG_URL = "/logs/searches";
+const userId = Cookies.get('userId');
 const Wordslearned = () => {
     const [data, setData] = useState([]);
+
     useEffect(() => {
         axios
-            .get(LOG_URL)
-            .then((res) => {
-                setData(res.data)
+            .put(LOG_URL,
+                { userId: userId },
+                { headers: { 'Content-Type': 'application/json' } })
+            .then((response) => {
+                response.data.map((pack) => {
+                    setData(prevArray => [...prevArray, ...JSON.parse(pack.learned)]);
+                })
             })
     }, [])
     return (
@@ -51,17 +56,19 @@ const Wordslearned = () => {
                         <table className="table text-center table-borderless">
                             <thead>
                                 <tr>
-                                    <th scope="col">Words</th>
-                                    <th scope="col">Answers</th>
+                                    <th scope="col">Word</th>
+                                    <th scope="col">Answer</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {data.map((value) => (
-                                    <tr>
-                                        <td>{value.word}</td>
-                                        <td>{value.answer}</td>
-                                    </tr>
-                                ))}
+                                {data.map((pack) => {
+                                    return (<>
+                                        <tr>
+                                            <td>{pack.word}</td>
+                                            <td>{pack.choice}</td>
+                                        </tr>
+                                    </>)
+                                })}
                             </tbody>
                         </table>
                     </div>

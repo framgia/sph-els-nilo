@@ -2,23 +2,32 @@ import { useLocation } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faTimes } from '@fortawesome/free-solid-svg-icons';
 import Cookies from "js-cookie";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import axios from "../api/api";
 
 const LOG_URL = "/logs";
 const Quizresult = () => {
+    const [learned, setLearned] = useState([]);
     const location = useLocation();
-    useEffect(() => {
-        location.state.charAnswers.map((valid) => (
-            valid.isCorrect
-                ?
-                axios.post(LOG_URL,
-                    { userId: valid.userId, word: valid.character, answer: valid.choice },
+    const userId = Cookies.get('userId');
+
+    const append = () => {
+        if (!(learned === null)) {
+            axios
+                .post(LOG_URL,
+                    { userId, categoryId: location.state.categoryId, learned: learned, maxItems: location.state.length },
                     { headers: { 'Content-Type': 'application/json' } })
-                :
-                false
-        ))
-    }, []);
+        }
+    }
+
+    useEffect(() => {
+        location.state.charAnswers.map((pack) => {
+            if (pack.isCorrect) {
+                setLearned(prevArray => [...prevArray, { "word": pack.character, "choice": pack.choice }])
+            }
+        })
+    }, [])
+    append()
     return (
         <>
             <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
@@ -66,7 +75,8 @@ const Quizresult = () => {
                                         <td><p className="fw-light">{pack.character}</p></td>
                                         <td>{pack.isCorrect ? <p className="fw-light text-primary">{pack.choice}</p> : <p className="text-danger fw-light">{pack.choice}</p>}</td>
                                     </tr>
-                                </>);
+                                </>
+                                );
                             })}
                         </tbody>
                     </table>

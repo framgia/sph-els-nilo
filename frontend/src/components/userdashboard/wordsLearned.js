@@ -1,8 +1,24 @@
-import { useLocation } from "react-router-dom";
 import Cookies from "js-cookie";
 import { faker } from '@faker-js/faker';
+import { useEffect, useState } from "react";
+import axios from "../api/api";
+
+const LOG_URL = "/logs/searches";
+const userId = Cookies.get('userId');
 const Wordslearned = () => {
-    const loc = useLocation();
+    const [data, setData] = useState([]);
+
+    useEffect(() => {
+        axios
+            .put(LOG_URL,
+                { userId: userId },
+                { headers: { 'Content-Type': 'application/json' } })
+            .then((response) => {
+                response.data.map((pack) => {
+                    setData(prevArray => [...prevArray, ...JSON.parse(pack.learned)]);
+                })
+            })
+    }, [])
     return (
         <>
             <ul className="nav bg-white p-3 w-100 mh-200 mb-5">
@@ -37,22 +53,22 @@ const Wordslearned = () => {
                 <div className="bg-white w-75 h-auto p-3 m-2 rounded">
                     <span className="fw-bold">Words Learned</span>
                     <div className="border-top border-primary m-2 p-5">
-                        <table class="table text-center table-borderless">
+                        <table className="table text-center table-borderless">
                             <thead>
                                 <tr>
-                                    <th scope="col">Words</th>
-                                    <th scope="col">Answers</th>
+                                    <th scope="col">Word</th>
+                                    <th scope="col">Answer</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Japanese</td>
-                                    <td>English</td>
-                                </tr>
-                                <tr>
-                                    <td>Japanese</td>
-                                    <td>English</td>
-                                </tr>
+                                {data.map((pack) => {
+                                    return (<>
+                                        <tr>
+                                            <td>{pack.word}</td>
+                                            <td>{pack.choice}</td>
+                                        </tr>
+                                    </>)
+                                })}
                             </tbody>
                         </table>
                     </div>
@@ -61,4 +77,5 @@ const Wordslearned = () => {
         </>
     )
 }
+
 export default Wordslearned;
